@@ -6,7 +6,7 @@ deps: [jquery]
 
 ### usage:
 
-```
+```javascript
 requirejs(['jquery','director'],function($,director){
 
     director.assign( $('selectors'), /*elements*/
