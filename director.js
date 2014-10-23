@@ -17,17 +17,20 @@ define(['jquery'], function($) {
 
     director.direct = function() {
         var $window = $(window),
-            winOldScrollTop = -1,
             winScrollTop,
             winHeight,
             actorOffsetTop,
             actorHeight,
             actorIndex,
+            staging = true,
             $actor = null;
+        $window.scroll(function(){
+            staging = true;
+        });
 
-        function scrollCheck() {
-            winScrollTop = $window.scrollTop();
-            if (winScrollTop !== winOldScrollTop) {
+        function action() {
+            if (staging) {
+                winScrollTop = $window.scrollTop();
                 winHeight = $window.height();
                 for (actorIndex = actors.length - 1; actorIndex >= 0; actorIndex--) {
                     $actor = actors[actorIndex];
@@ -49,13 +52,13 @@ define(['jquery'], function($) {
                         delete $actor.ondisappear;
                     }
                 }
-                winOldScrollTop = winScrollTop;
+                staging = false;
             }
             if (actors.length > 0) {
-                window.setTimeout(scrollCheck, 600);
+                window.setTimeout(action, 600);
             }
         }
-        window.setTimeout(scrollCheck, 600);
+        window.setTimeout(action, 600);
         delete director.direct;
     };
 
