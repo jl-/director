@@ -4,23 +4,22 @@ define(['jquery'], function($) {
     var actors = [];
 
 
-    director.assign = function($actor, acb, dcb) {
-        if (typeof acb === 'function' || typeof dcb === 'function') {
+    director.assign = function($actor, onAppear, onActing, onDisappear) {
+        if (typeof onAppear === 'function' || typeof onActing === 'function' || typeof onDisappear === 'function') {
             $actor.each(function() {
                 var $self = $(this);
-                $self.onappear = acb;
-                $self.ondisappear = dcb;
+                $self.onAppear = onAppear;
+                $self.onActing = onActing;
+                $self.onDisappear = onDisappear;
                 actors.push($self);
             });
         }
+        return this;
     };
 
     director.direct = function() {
         var $window = $(window),
-            winScrollTop,
-            winHeight,
-            actorOffsetTop,
-            actorHeight,
+            data = {},
             actorIndex,
             staging = true,
             $actor = null;
@@ -30,35 +29,40 @@ define(['jquery'], function($) {
 
         function action() {
             if (staging) {
-                winScrollTop = $window.scrollTop();
-                winHeight = $window.height();
+                data.winScrollTop = $window.scrollTop();
+                data.winHeight = $window.height();
                 for (actorIndex = actors.length - 1; actorIndex >= 0; actorIndex--) {
                     $actor = actors[actorIndex];
-                    if (!$actor.onappear && !$actor.ondisappear) {
+                    if (!$actor.onAppear && !$actor.onActing && !$actor.onDisappear) {
                         actors.splice(actorIndex, 1);
                         continue;
                     }
-                    actorOffsetTop = $actor.offset().top;
-                    actorHeight = $actor.height();
+                    data.actorOffsetTop = $actor.offset().top;
+                    data.actorHeight = $actor.height();
 
-                    if (winScrollTop + winHeight > actorOffsetTop && actorOffsetTop + actorHeight > winScrollTop) {
+                    if (data.winScrollTop + data.winHeight > data.actorOffsetTop && data.actorOffsetTop + data.actorHeight > data.winScrollTop) {
                         $actor.appearing = true;
-                        if ($actor.onappear) {
-                            $actor.onappear.call(this, $actor);
-                            delete $actor.onappear;
+                        if ($actor.onAppear) {
+                            $actor.onAppear.call(this, $actor);
+                            delete $actor.onAppear;
                         }
-                    } else if ($actor.appearing && $actor.ondisappear) {
-                        $actor.ondisappear.call(this, $actor);
-                        delete $actor.ondisappear;
+                        if($actor.onActing){
+                            $actor.onActing.call(this,$actor,data);
+                        }
+                    } else if ($actor.appearing) {
+                        $actor.appearing = false;
+                        if($actor.onDisappear)
+                        $actor.onDisappear.call(this, $actor);
+                        delete $actor.onDisappear;
                     }
                 }
                 staging = false;
             }
             if (actors.length > 0) {
-                window.setTimeout(action, 600);
+                window.setTimeout(action, 0);
             }
         }
-        window.setTimeout(action, 600);
+        window.setTimeout(action, 0);
         delete director.direct;
     };
 
