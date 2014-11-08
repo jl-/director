@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>jquery.director</title>
+        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+        <link rel="stylesheet" href="bower_components/normalize.css/normalize.css">
+        <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="bower_components/highlightjs/styles/xcode.css">
+        <link rel="stylesheet" href="index.css">
+    </head>
+    <body class="container-clip-x container-auto-y">
+        <section class="cover flex-column center">
+            <h4>Usage</h4>
+            <pre><code>requirejs(['jquery','director'],function($,director){
+    director.assign( $('selectors'), /*elements*/
+
+        function($actor){
+            // do something when first appear....
+
+        }, /* [callback], fired when this element first appear on browser's viewport */
+
+        function($actor,data/* {winScrollTop,winHeight,actorOffsetTop,actorHeight} */){
+            // do something when $acto is within browser's viewport and window is scrolling
+
+        }, /* [callback], fired when this element is within win viewport and win is scrolling */
+
+        function($actor){
+            // do something when first disappear
+
+        }/*[callback], fired when this element first disappear from browser's viewport */ 
+    );
+
+    director.direct(); // just call .direct() only once, you can assign other $actors later.
+}); </code></pre>
+            </section>
+            <section class="cover bg-primary flex-column center">
+                <div class="bi">
+                    <h3 class="text-center">first appear</h3>
+                    <pre><code>director.assign($('.bi'),function($self){
+    $self.addClass('bounceIn');
+});</code></pre>
+                </div>
+            </section>
+            <section class="cover parallax horse flex-column center">
+                <h3 style="color: white" class="text-center">Parallax scrolling</h3>
+               <pre><code>director.assign($('.parallax'),null, function($self, data) {
+    var speed = 6;
+    var offsetY = data.actorOffsetTop > 0 ? data.winHeight - data.actorOffsetTop : 0,
+        ypos = -((data.winScrollTop + offsetY) / speed),
+        coords = '50% ' + ypos + 'px';
+    var styles = {};
+    styles.backgroundPosition = coords;
+    $self.css(styles);
+});</code></pre> 
+            </section>
+            <section class="cover bg-primary flex-column">
+               <button class="btn btn-primary"><a href="https://github.com/jl-/jquery.director" class="text-white"><i class="glyphicon glyphicon-star"></i>    star me</a></button> 
+            </section>
+            <script src="bower_components/requirejs/require.js" data-main="index"></script>
+        </body>
+</html>

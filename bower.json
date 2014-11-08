@@ -1,0 +1,17 @@
+{
+  "name": "jquery.director",
+  "version": "0.0.0",
+  "homepage": "https://github.com/jl-/jquery.director",
+  "authors": [
+    "jl- <i.dragonxx@gmail.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "requirejs": "~2.1.15",
+    "bootstrap": "~3.2.0",
+    "normalize.css": "~3.0.1",
+    "jquery": "~2.1.1",
+    "highlightjs": "~8.3.0"
+  }
+}
