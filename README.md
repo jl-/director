@@ -1,8 +1,12 @@
 ## jquery.director.js
 
----
+===
 
 deps: [jquery]
+
+===
+
+[demo](http://jl-.github.io/jquery.director/)
 
 ### usage:
 
