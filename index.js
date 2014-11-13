@@ -15,6 +15,7 @@ requirejs.config({
 });
 requirejs(['director','hl'], function(director,hl) {
 
+
     director.assign($('.parallax'),null, function($self, data) {
         var speed = 6;
         var offsetY = data.actorOffsetTop > 0 ? data.winHeight - data.actorOffsetTop : 0,
@@ -23,10 +24,18 @@ requirejs(['director','hl'], function(director,hl) {
         var styles = {};
         styles.backgroundPosition = coords;
         $self.css(styles);
+        console.log('parallax acting');
     })
     // appear
     .assign($('.bi'), function($self) {
         $self.addClass('bounceIn');
+        console.log('buinceIn appear');
+    },null,function($self){
+        $self.removeClass('bounceIn');
+        console.log('buinceIn disappear');
+    },{
+        appear_once: false,
+        disappear_once: false
     })
     ;
 
