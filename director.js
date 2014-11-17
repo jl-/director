@@ -1,10 +1,18 @@
-;
-define(['jquery'], function($) {
+/*!
+ * Jquery.director
+ * jquery plugin 
+ *
+ */
+(function(factory) {
+    if(typeof define === 'function' && define.amd){
+        define(['jquery'],factory);
+    }else{
+        window.director = factory(Jquery);
+    }
+})(function($) {
+
     var director = {};
-
-
     director.actors = [];
-
     director.options = {
         delay: 10,
         flush_after: 30,
@@ -49,12 +57,12 @@ define(['jquery'], function($) {
         return this;
     };
 
-
     director.direct = function() {
         var $window = $(window),
             data = {},
             actorIndex,
             $actor = null;
+
         function action() {
             data.winHeight = $window.height();
             data.winWidth = $window.width();
@@ -72,7 +80,7 @@ define(['jquery'], function($) {
                 if (data.winScrollTop + data.winHeight > data.actorOffsetTop && data.actorOffsetTop + data.actorHeight > data.winScrollTop) {
                     if (!$actor.appearing && $actor.onAppear) {
                         $actor.onAppear.call(this, $actor);
-                        if($actor.options.appear_once === true || ($actor.options.appear_once !== false && director.options.actors_appear_once)){
+                        if ($actor.options.appear_once === true || ($actor.options.appear_once !== false && director.options.actors_appear_once)) {
                             delete $actor.onAppear;
                         }
                     }
@@ -82,20 +90,18 @@ define(['jquery'], function($) {
                     $actor.appearing = true;
                 } else if ($actor.appearing) {
                     $actor.appearing = false;
-                    if ($actor.onDisappear){
+                    if ($actor.onDisappear) {
                         $actor.onDisappear.call(this, $actor);
                     }
-                    if($actor.options.disappear_once === true || ($actor.options.disappear_once !== false && director.options.actors_disappear_once)){
+                    if ($actor.options.disappear_once === true || ($actor.options.disappear_once !== false && director.options.actors_disappear_once)) {
                         delete $actor.onDisappear;
                     }
                 }
             }
         }
         action();
-        $window.scroll(throttle(action,director.options.delay,director.options.flush_after));
-
+        $window.scroll(throttle(action, director.options.delay, director.options.flush_after));
         delete director.direct;
     };
-
     return director;
 });
