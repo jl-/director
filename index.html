@@ -10,29 +10,42 @@
         <link rel="stylesheet" href="index.css">
     </head>
     <body class="container-clip-x container-auto-y">
-        <section class="cover flex-column center">
+        <section class="cover flex-column center bg-primary">
+
             <h4>Usage</h4>
-            <pre><code>requirejs(['jquery','director'],function($,director){
-    director.assign( $('selectors'), /*elements*/
+            <pre><code>director.config({
+    delay: 10,
+    flush_after: 30,
+    actors_appear_once: true,
+    actors_disappear_once: true
+})</code></pre>
+            <pre><code>director.assign($acotrs,onAppear,onWinScrolling,onDisappear[,options])
+            /*options:{
+                appear_once: true
+            }*/</code></pre>
+            <pre><code>director.direct(); // just call .direct() only once, you can assign other $actors later.</code></pre>
+        </section>
+        <section class="cover flex-column center">
+            <h4>Example</h4>
+            <pre><code>director.assign( $('selectors'), /*elements*/
 
-        function($actor){
-            // do something when first appear....
+    function($actor){
+        // do something when [first] appear....
 
-        }, /* [callback], fired when this element first appear on browser's viewport */
+    }, /* [callback], fired when this element first appear on browser's viewport */
 
-        function($actor,data/* {winScrollTop,winHeight,actorOffsetTop,actorHeight} */){
-            // do something when $acto is within browser's viewport and window is scrolling
+    function($actor,data/* {winScrollTop,winHeight,actorOffsetTop,actorHeight} */){
+        // do something when $acto is within browser's viewport and window is scrolling
 
-        }, /* [callback], fired when this element is within win viewport and win is scrolling */
+    }, /* [callback], fired when this element is within win viewport and win is scrolling */
 
-        function($actor){
-            // do something when first disappear
+    function($actor){
+        // do something when [first] disappear
 
-        }/*[callback], fired when this element first disappear from browser's viewport */ 
-    );
+    }/*[callback], fired when this element [first] disappear from browser's viewport */ 
+); // chainable
 
-    director.direct(); // just call .direct() only once, you can assign other $actors later.
-}); </code></pre>
+director.direct();</code></pre>
             </section>
             <section class="cover bg-primary flex-column center">
                 <div class="bi">
