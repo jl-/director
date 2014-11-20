@@ -1,6 +1,6 @@
 /*!
  * Jquery.director
- * jquery plugin 
+ * 
  *
  */
 (function(factory) {
