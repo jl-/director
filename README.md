@@ -6,7 +6,7 @@ deps: [jquery]
 
 ===
 
-[demo](http://jl-.github.io/jquery.director/)
+[demo](http://jl-.github.io/director/)
 
 ### usage:
 
