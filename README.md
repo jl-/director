@@ -1,4 +1,4 @@
-## jquery.director.js
+## director.js
 
 ===
 
